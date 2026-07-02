@@ -1,19 +1,28 @@
-:root {
-  --bg: #0F1B2D;
-  --surface: #16273D;
-  --surface-alt: #1E3350;
-  --border: #2A3F5A;
-  --text: #E8EDF3;
-  --text-dim: #94A7BD;
-  --accent: #F2A93B;
-  --accent-dim: #C98A2E;
-  --good: #4CAF7D;
-  --warn: #F2A93B;
-  --bad: #E5626A;
+:root{
 
-  --font-display: 'Space Grotesk', 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
+    --bg:#050505;
+    --surface:#101010;
+    --surface-alt:#171717;
+
+    --border:#2A2A2A;
+    --border-hover:#E1F000;
+
+    --text:#F5F5F5;
+    --text-dim:#9D9D9D;
+
+    --accent:#E1F000;
+    --accent-dark:#A9B400;
+
+    --good:#5AE06E;
+    --warn:#FFC93A;
+    --bad:#FF5D5D;
+
+    --shadow:0 0 18px rgba(225,240,0,.08);
+
+    --font-display:'Space Grotesk',sans-serif;
+    --font-body:'Inter',sans-serif;
+    --font-mono:'IBM Plex Mono',monospace;
+
 }
 
 * { box-sizing: border-box; }
