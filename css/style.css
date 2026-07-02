@@ -1,28 +1,20 @@
-:root{
+:root {
+  --bg: #101112;
+  --surface: #17191B;
+  --surface-alt: #1F2224;
+  --border: #2C3033;
+  --text: #F2F3F1;
+  --text-dim: #9AA0A6;
+  --accent: #C6D91E;
+  --accent-dim: #9FAE18;
+  --accent-ink: #14150C;
+  --good: #7ED957;
+  --warn: #C6D91E;
+  --bad: #E5626A;
 
-    --bg:#050505;
-    --surface:#101010;
-    --surface-alt:#171717;
-
-    --border:#2A2A2A;
-    --border-hover:#E1F000;
-
-    --text:#F5F5F5;
-    --text-dim:#9D9D9D;
-
-    --accent:#E1F000;
-    --accent-dark:#A9B400;
-
-    --good:#5AE06E;
-    --warn:#FFC93A;
-    --bad:#FF5D5D;
-
-    --shadow:0 0 18px rgba(225,240,0,.08);
-
-    --font-display:'Space Grotesk',sans-serif;
-    --font-body:'Inter',sans-serif;
-    --font-mono:'IBM Plex Mono',monospace;
-
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
 }
 
 * { box-sizing: border-box; }
@@ -38,7 +30,7 @@ html, body {
 
 body {
   background-image:
-    linear-gradient(180deg, rgba(242,169,59,0.05), transparent 240px),
+    linear-gradient(180deg, rgba(198,217,30,0.05), transparent 240px),
     repeating-linear-gradient(90deg, rgba(255,255,255,0.015) 0 1px, transparent 1px 96px);
 }
 
@@ -75,7 +67,7 @@ a { color: var(--accent); }
   gap: 16px;
   padding: 18px 28px;
   border-bottom: 1px solid var(--border);
-  background: rgba(15, 27, 45, 0.85);
+  background: rgba(16, 17, 18, 0.85);
   backdrop-filter: blur(6px);
   position: sticky;
   top: 0;
@@ -86,19 +78,18 @@ a { color: var(--accent); }
 .brand { display: flex; align-items: center; gap: 12px; }
 
 .brand-mark {
-  width: 30px; height: 30px;
-  border-radius: 6px;
-  background: conic-gradient(from 220deg, var(--accent), var(--accent-dim), var(--accent));
-  box-shadow: 0 0 0 1px var(--border), 0 0 16px rgba(242,169,59,0.25);
+  width: 34px; height: 34px;
   flex-shrink: 0;
+  filter: drop-shadow(0 0 12px rgba(198,217,30,0.25));
 }
 
 .brand-text h1 {
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   margin: 0;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .brand-sub {
@@ -115,14 +106,15 @@ a { color: var(--accent); }
   letter-spacing: 0.06em;
   color: var(--accent);
   border: 1px solid var(--accent-dim);
-  background: rgba(242,169,59,0.08);
+  background: rgba(198,217,30,0.08);
   padding: 5px 9px;
   border-radius: 4px;
+  text-transform: uppercase;
 }
 .mode-tag.live {
   color: var(--good);
   border-color: var(--good);
-  background: rgba(76,175,125,0.08);
+  background: rgba(126,217,87,0.08);
 }
 
 /* Buttons */
@@ -143,9 +135,11 @@ a { color: var(--accent); }
 
 .btn-primary {
   background: var(--accent);
-  color: #201304;
+  color: var(--accent-ink);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
-.btn-primary:hover { background: #ffb54d; }
+.btn-primary:hover { background: #d4e84a; }
 
 .btn-ghost {
   background: transparent;
@@ -157,7 +151,7 @@ a { color: var(--accent); }
 .btn-dot {
   width: 7px; height: 7px;
   border-radius: 50%;
-  background: #201304;
+  background: var(--accent-ink);
   opacity: 0.6;
 }
 .btn.syncing .btn-dot { animation: pulse 0.9s ease-in-out infinite; }
@@ -236,7 +230,7 @@ input[type="text"], input[type="password"], input[type="search"], select {
 }
 input:focus, select:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(242,169,59,0.15);
+  box-shadow: 0 0 0 3px rgba(198,217,30,0.18);
 }
 
 .panel-actions {
@@ -259,7 +253,7 @@ input:focus, select:focus {
 .callout {
   margin-top: 16px;
   border-left: 3px solid var(--accent-dim);
-  background: rgba(242,169,59,0.06);
+  background: rgba(198,217,30,0.07);
   padding: 12px 14px;
   font-size: 12.5px;
   line-height: 1.55;
@@ -370,7 +364,7 @@ input:focus, select:focus {
 }
 .status-pill.aberta { background: rgba(76,175,125,0.12); color: var(--good); }
 .status-pill.aberta::before { background: var(--good); }
-.status-pill.encerrando { background: rgba(242,169,59,0.12); color: var(--warn); }
+.status-pill.encerrando { background: rgba(198,217,30,0.14); color: var(--warn); }
 .status-pill.encerrando::before { background: var(--warn); }
 .status-pill.encerrada { background: rgba(148,167,189,0.12); color: var(--text-dim); }
 .status-pill.encerrada::before { background: var(--text-dim); }
