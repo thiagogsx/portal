@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitor de Ofertas · Petronect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="scanline" id="scanline"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <div class="brand-text">
+      <h1>Monitor de Ofertas</h1>
+      <span class="brand-sub">Equipamentos &middot; Portais de licitação</span>
+    </div>
+  </div>
+
+  <div class="topbar-actions">
+    <span class="mode-tag" id="modeTag">MODO DEMONSTRAÇÃO</span>
+    <button class="btn btn-ghost" id="settingsBtn" type="button">Configurar conexão</button>
+    <button class="btn btn-primary" id="syncBtn" type="button">
+      <span class="btn-dot" aria-hidden="true"></span>
+      Sincronizar portais
+    </button>
+  </div>
+</header>
+
+<main class="layout">
+
+  <!-- Painel de configuração da API (oculto por padrão) -->
+  <section class="panel config-panel" id="configPanel" hidden>
+    <div class="panel-head">
+      <h2>Conexão com portais</h2>
+      <button class="icon-btn" id="closeConfig" type="button" aria-label="Fechar">✕</button>
+    </div>
+    <p class="panel-note">
+      As chaves informadas abaixo ficam apenas na memória desta aba (não são salvas em disco nem enviadas
+      a nenhum servidor além do próprio portal). Enquanto a Petronect não libera sua credencial, o painel
+      opera com dados de demonstração.
+    </p>
+
+    <div class="form-grid">
+      <div class="field">
+        <label for="portalSelect">Portal</label>
+        <select id="portalSelect">
+          <option value="petronect">Petronect (Petrobras)</option>
+          <option value="vale">Vale — Portal do Fornecedor</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="apiBase">URL base da API</label>
+        <input id="apiBase" type="text" placeholder="https://api.petronect.com.br/v1" autocomplete="off">
+      </div>
+      <div class="field field-wide">
+        <label for="apiKey">Chave de API</label>
+        <input id="apiKey" type="password" placeholder="Cole aqui a chave fornecida pelo portal" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="panel-actions">
+      <label class="checkbox">
+        <input type="checkbox" id="demoToggle" checked>
+        Usar dados de demonstração (sem chamada externa)
+      </label>
+      <button class="btn btn-primary" id="saveConfig" type="button">Salvar para esta sessão</button>
+    </div>
+
+    <div class="callout" id="corsWarning">
+      <strong>Antes de ligar isso à chave real:</strong> este protótipo é hospedado como página estática
+      (GitHub Pages). Chamar a API do portal diretamente do navegador expõe a chave a qualquer visitante
+      e normalmente esbarra em bloqueio de CORS do portal. Para produção, essa chamada precisa passar por
+      um pequeno backend/proxy que guarde a chave em segredo. Veja o README do repositório para o passo a passo.
+    </div>
+  </section>
+
+  <!-- Cartões de resumo -->
+  <section class="stats" aria-label="Resumo">
+    <div class="stat-card">
+      <span class="stat-label">Ofertas monitoradas</span>
+      <span class="stat-value" id="statTotal">—</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Novas nas últimas 24h</span>
+      <span class="stat-value accent" id="statNew">—</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Encerram em até 5 dias</span>
+      <span class="stat-value warn" id="statClosing">—</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Última sincronização</span>
+      <span class="stat-value small" id="statSync">nunca</span>
+    </div>
+  </section>
+
+  <!-- Filtros -->
+  <section class="filters" aria-label="Filtros">
+    <input type="search" id="searchInput" placeholder="Buscar por equipamento, código ou fornecedor…">
+
+    <select id="filterPortal">
+      <option value="">Todos os portais</option>
+      <option value="Petronect">Petronect</option>
+      <option value="Vale">Vale</option>
+    </select>
+
+    <select id="filterStatus">
+      <option value="">Todos os status</option>
+      <option value="aberta">Aberta</option>
+      <option value="encerrando">Encerrando</option>
+      <option value="encerrada">Encerrada</option>
+    </select>
+
+    <select id="filterCategory">
+      <option value="">Todas as categorias</option>
+    </select>
+  </section>
+
+  <!-- Tabela de ofertas -->
+  <section class="table-wrap">
+    <table class="offers-table" id="offersTable">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Equipamento</th>
+          <th>Categoria</th>
+          <th>Portal</th>
+          <th>Publicado em</th>
+          <th>Encerra em</th>
+          <th>Valor estimado</th>
+          <th>Status</th>
+          <th aria-label="Ações"></th>
+        </tr>
+      </thead>
+      <tbody id="offersBody">
+        <!-- linhas geradas via js/app.js -->
+      </tbody>
+    </table>
+
+    <div class="empty-state" id="emptyState" hidden>
+      <p>Nenhuma oferta encontrada com esses filtros.</p>
+      <button class="btn btn-ghost" id="clearFilters" type="button">Limpar filtros</button>
+    </div>
+  </section>
+
+  <p class="footnote">
+    Protótipo interno · dados de demonstração até a liberação da chave oficial da Petronect ·
+    <a href="https://github.com/thiagogsx" target="_blank" rel="noopener">github.com/thiagogsx</a>
+  </p>
+
+</main>
+
+<script src="js/app.js"></script>
+</body>
+</html>
